@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <h1 class="mt-5">Detail</h1>
+    <div class="row mt-4 justify-content-center">
+
+        <div class="col-xl-5 col-md-6 mb-4  ">
+            <div class="card " style="min-height:350px;">
+                <div class="card-body d-flex flex-column ">
+                    <h5 class="card-title">{{ finch.name }}</h5>
+                    <p class="card-text">Breed: {{ finch.breed }}</p>
+                    <p class="card-text">Description: {{ finch.description | linebreaks }}</p>
+                    {% if finch.age > 0 %}
+                    <p class="card-text">Age: {{ finch.age }}</p>
+                    {% else %}
+                    <p class="card-text">Age: Kitten</p>
+                    {% endif %}
+
+                </div>
+                <div class="card-action">
+                    <a href="{% url 'finches_update' finch.id %}">
+                        <div class="btn btn-info">Edit</div>
+                    </a>
+                    <a href="{% url 'finches_delete' finch.id %}">
+                        <div class="btn btn-danger">Delete</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-5 col-md-6 mb-4 ">
+            <form action = "{% url 'add_feeding' finch.id %}" method="POST">
+                {% csrf_token %}
+                <!-- Render the inputs -->
+                <!-- {{ feeding_form.as_p }} -->
+                <div class="form-group">
+                    <label for="id_date">Date:</label>
+                    <input type="text" class="form-control datepicker" id="id_date" name="date">
+
+                  </div>
+
+                  <div class="form-group">
+                    <label for="id_meal">Meal:</label>
+                    <select class="form-control" id="id_meal" name="meal">
+                      <option value="B">Breakfast</option>
+                      <option value="L">Lunch</option>
+                      <option value="D">Dinner</option>
+                    </select>
+                  </div>
+
+                <input type="submit" class="btn btn-info" value="Add Feeding">
+              </form>
+            <table class="table striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Meal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for feeding in finch.feeding_set.all %}
+                    <tr>
+                        <td>{{feeding.date}}</td>
+                        <td>{{feeding.get_meal_display}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
+    });
+
+</script>
+
+{% endblock %}
