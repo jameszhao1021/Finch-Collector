@@ -33,7 +33,13 @@
                         <a class="nav-link" href="{% url 'finches_create' %}">Add a Cat</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/finches">View All Finches</a>
+                        <a class="nav-link" href="{% url 'index' %}">View All Finches</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'toys_create' %}">Add a Toy</a>
+                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'toys_index' %}">View All Toys</a>
                     </li>
                 </ul>
             </div>
